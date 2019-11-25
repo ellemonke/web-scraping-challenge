@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup as bs
 from splinter import Browser
 import requests
 import pandas as pd
-from flask import Markup
 
 def init_browser():
     # @NOTE: Replace the path with your actual path to the chromedriver
@@ -59,6 +58,10 @@ def mars_weather():
     # Scrape results
     mars_weather = twitter_soup.find('p', class_ = 'js-tweet-text').text
 
+    # Remove Twitter pic url
+    mars_weather = mars_weather.split('pic.twitter.com')
+    mars_weather = mars_weather[0]
+
     return mars_weather
 
 
@@ -82,9 +85,8 @@ def mars_facts():
     # Convert df to html string
     mars_facts = facts_df.to_html(index=False, border=None)
     mars_facts = mars_facts.replace('\n', '')
-    mars_html = Markup(mars_facts)
 
-    return mars_html
+    return mars_facts
 
 
 # Mars Hemispheres
