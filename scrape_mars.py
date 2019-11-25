@@ -15,12 +15,10 @@ def mars_news():
     news_url = 'https://mars.nasa.gov/news/'
     response = requests.get(news_url)
     news_soup = bs(response.text, 'lxml')
-    # Scrape results
-    results = news_soup.find('div', class_='image_and_description_container')
 
-    # Find news title and paragraph
-    news_title = results.a.find('img', class_='img-lazy')['alt']
-    news_p = results.find('div', class_='rollover_description_inner').text.strip()
+    # Scrape results
+    news_title = news_soup.find('div', class_='content_title').find('a').text
+    news_p = news_soup.find('div', class_='rollover_description_inner').text.strip()
 
     return news_title, news_p
 
